@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071a1b">
+  <meta name="color-scheme" content="dark">
+  <title>鹈鹕骑士 · Pelican Point — A Realtime 3D Postcard</title>
+  <meta name="description" content="一只鹈鹕，一辆青绿色单车，和一整片正在融化的黄昏。一个用 WebGL 手工搭建的实时 3D 海角。">
+  <link rel="canonical" href="https://dxeledx.github.io/pelican-point/">
+  <meta property="og:title" content="鹈鹕骑士 · Pelican Point">
+  <meta property="og:description" content="一只鹈鹕，一辆青绿色单车，和一整片正在融化的黄昏。A realtime 3D postcard.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dxeledx.github.io/pelican-point/">
+  <meta property="og:site_name" content="Pelican Point">
+  <meta property="og:image" content="https://dxeledx.github.io/pelican-point/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="鹈鹕骑士 · Pelican Point">
+  <meta name="twitter:description" content="一只鹈鹕，一辆青绿色单车，和一整片正在融化的黄昏。A realtime 3D postcard.">
+  <meta name="twitter:image" content="https://dxeledx.github.io/pelican-point/assets/og.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23071a1b'/%3E%3Ccircle cx='41' cy='25' r='13' fill='%23f4a259'/%3E%3Cpath d='M11 43c8-14 18-18 27-11l7-10c3 7 1 13-4 17 5 2 6 7 2 10-5 4-17 1-24 3-5 2-9 0-8-3 0-3 4-3 7-4l-7-2z' fill='%23f4eddc'/%3E%3Ccircle cx='30' cy='34' r='1.6' fill='%23071a1b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.js",
+        "three/addons/": "./vendor/addons/"
+      }
+    }
+  </script>
+</head>
+<body class="is-loading">
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <symbol id="i-sound" viewBox="0 0 24 24">
+      <path d="M4 9.5v5h3.2l4.3 3.4V6.1L7.2 9.5H4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M15 8.5c1.8 1.7 1.8 5.3 0 7M17.8 5.8c3.2 3.3 3.2 9.1 0 12.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-muted" viewBox="0 0 24 24">
+      <path d="M4 9.5v5h3.2l4.3 3.4V6.1L7.2 9.5H4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="m15.5 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24">
+      <path d="M3.5 7.5h4l1.4-2h6.2l1.4 2h4v11h-17v-11Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <circle cx="12" cy="13" r="3.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    </symbol>
+    <symbol id="i-film" viewBox="0 0 24 24">
+      <rect x="3.5" y="5.5" width="17" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M7 5.5v13M17 5.5v13M3.5 9.5h3.5M3.5 14.5h3.5M17 9.5h3.5M17 14.5h3.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    </symbol>
+    <symbol id="i-cinema" viewBox="0 0 24 24">
+      <path d="M3 8V4h4M21 8V4h-4M3 16v4h4M21 16v4h-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <rect x="7" y="7" width="10" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    </symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24">
+      <path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-help" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M9.7 9.1a2.4 2.4 0 0 1 4.7.5c0 1.7-2.4 2-2.4 3.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="12" cy="16.8" r=".9" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M6.5 17h11c-1.4-1.4-1.7-3-1.7-5.4 0-3-1-4.9-3.8-4.9S8.2 8.6 8.2 11.6c0 2.4-.3 4-1.7 5.4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M10.2 19.3a2 2 0 0 0 3.6 0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M12 4.6V3.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-jump" viewBox="0 0 24 24">
+      <path d="M12 19V5m0 0-5 5m5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 21h14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24">
+      <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24">
+      <path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-left" viewBox="0 0 24 24">
+      <path d="m14 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-right" viewBox="0 0 24 24">
+      <path d="m10 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <canvas id="scene" role="img" aria-label="一只戴着船长帽的鹈鹕，骑着一辆青绿色自行车，沿着落日下的小岛木栈道前行。"></canvas>
+
+  <div class="atmosphere" aria-hidden="true">
+    <div class="atmosphere-vignette"></div>
+    <div class="atmosphere-grain"></div>
+    <div class="atmosphere-scan"></div>
+  </div>
+
+  <div id="photoFlash" class="photo-flash" aria-hidden="true"></div>
+
+  <div id="loader" class="loader" role="status" aria-live="polite">
+    <div class="loader-head">
+      <span>PELICAN POINT</span>
+      <span>EST. 2026 / WEBGL</span>
+    </div>
+    <div class="loader-center">
+      <div class="loader-sun">
+        <svg class="loader-pelican" viewBox="0 0 140 118" aria-hidden="true">
+          <circle cx="92" cy="53" r="26" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+          <path d="M24 69c9-14 23-19 35-14 4-9 11-14 20-14 12 0 20 8 21 20l19 6c3 1 3 5 0 6l-18 3c-2 10-11 17-23 17-9 0-17-3-23-9l-4 13c-1 4-6 3-6-1l1-16-10 4c-4 1-6-3-2-5l11-6-19-2c-4 0-5-5-2-6l25-4c-3 4-4 8-4 12" fill="currentColor" opacity=".96"/>
+          <circle cx="77" cy="46" r="2.2" fill="#071a1b"/>
+          <path d="M27 93c6 0 11 4 15 6 4-8 10-12 17-12 8 0 14 5 17 12" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="41" cy="101" r="12" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <circle cx="87" cy="101" r="12" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="loader-copy">
+        <span id="loaderStatus">正在孵化一只鹈鹕</span>
+        <small>HATCHING A PELICAN</small>
+      </div>
+    </div>
+    <div class="loader-foot">
+      <div class="loader-track"><i id="loaderBar"></i></div>
+      <span id="loaderPct">00</span>
+    </div>
+  </div>
+
+  <section id="intro" class="intro" aria-labelledby="introTitle">
+    <div class="frame-marks" aria-hidden="true">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="edge-label top">OFFSHORE FORECAST / 18°C / CLEAR</span>
+      <span class="edge-label bottom">37°14′ N &nbsp; 122°03′ W</span>
+    </div>
+
+    <header class="intro-head">
+      <div class="wordmark">
+        <span class="seal">P</span>
+        <span class="wordmark-copy">PELICAN POINT<small>AN OFFSHORE OBSERVATION</small></span>
+      </div>
+      <div class="issue">ISSUE Nº 001 <span>/</span> GOLDEN HOUR</div>
+    </header>
+
+    <div class="intro-body">
+      <p class="eyebrow"><span></span>A REALTIME 3D POSTCARD</p>
+      <h1 id="introTitle" class="display">
+        <span class="display-cn">鹈鹕骑士</span>
+        <span class="display-en"><i>Pelican</i><span>Point</span></span>
+      </h1>
+      <p class="intro-lede">一位长嘴的绅士，一辆青绿色的单车，<br>和一整片正在融化的黄昏。</p>
+      <p class="intro-en">A pelican. A bicycle. The Pacific.<br>Nothing urgent. Nowhere to be.</p>
+    </div>
+
+    <button id="startBtn" class="start" type="button">
+      <span class="start-ring" aria-hidden="true"></span>
+      <span class="start-label"><b>开始骑行</b><small>START THE RIDE</small></span>
+      <span class="start-disc"><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+    </button>
+
+    <footer class="intro-foot">
+      <div class="foot-note">
+        <span>SOUND DESIGNED IN THE BROWSER</span>
+        <span>BEST WITH HEADPHONES</span>
+      </div>
+      <div class="foot-coords">PELICAN COVE <span>·</span> CALIFORNIA<br><small>THE LIGHTHOUSE IS STILL ON.</small></div>
+      <div class="foot-credit">WEBGL / THREE.JS<br><small>HAND-BUILT, NO MODEL FILES.</small></div>
+    </footer>
+  </section>
+
+  <div id="hud" class="hud">
+    <header class="hud-head">
+      <div class="hud-brand">
+        <span class="seal small">P</span>
+        <span class="hud-brand-copy">PELICAN POINT<small>OFFSHORE OBSERVATION · 001</small></span>
+      </div>
+      <div class="live-location"><i></i><span>PELICAN COVE</span><b>/</b><span id="weatherLabel">GOLDEN HOUR</span></div>
+      <nav class="hud-actions" aria-label="页面工具">
+        <button id="soundBtn" class="icon-btn" type="button" aria-label="开启声音" data-tip="声音">
+          <svg class="icon-on"><use href="#i-sound"/></svg><svg class="icon-off"><use href="#i-muted"/></svg>
+          <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        </button>
+        <button id="photoBtn" class="icon-btn" type="button" aria-label="拍摄照片" data-tip="拍照">
+          <svg><use href="#i-camera"/></svg>
+        </button>
+        <button id="filmBtn" class="icon-btn" type="button" aria-label="录制六秒短片" data-tip="录一段">
+          <svg><use href="#i-film"/></svg>
+        </button>
+        <button id="cinemaBtn" class="icon-btn" type="button" aria-label="进入影院模式" data-tip="影院模式">
+          <svg><use href="#i-cinema"/></svg>
+        </button>
+        <button id="fullBtn" class="icon-btn" type="button" aria-label="全屏" data-tip="全屏">
+          <svg><use href="#i-expand"/></svg>
+        </button>
+        <button id="helpBtn" class="icon-btn" type="button" aria-label="操作说明" data-tip="操作">
+          <svg><use href="#i-help"/></svg>
+        </button>
+      </nav>
+    </header>
+
+    <aside class="side-caption" aria-hidden="true">
+      <span>THE RIDE</span><i></i><span>PACIFIC COAST</span>
+    </aside>
+
+    <section class="time-panel panel" aria-label="时间与光线">
+      <div class="panel-head"><span>LIGHT STUDY</span><span id="timePhase">GOLDEN HOUR</span></div>
+      <div class="clock-row">
+        <span id="clock">18:36</span>
+        <span id="temp">18°C</span>
+      </div>
+      <label class="sr-only" for="timeSlider">选择一天中的时间</label>
+      <input id="timeSlider" class="time-slider" type="range" min="0" max="24" value="18.6" step="0.05" aria-valuetext="18:36，黄金时刻">
+      <div class="time-scale" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+    </section>
+
+    <section class="speed-panel panel" aria-label="骑行速度">
+      <div class="speed-dial">
+        <svg viewBox="0 0 160 160" aria-hidden="true">
+          <circle class="dial-track" cx="80" cy="80" r="62"></circle>
+          <circle id="dialArc" class="dial-arc" cx="80" cy="80" r="62"></circle>
+          <circle class="dial-inner" cx="80" cy="80" r="49"></circle>
+        </svg>
+        <div class="speed-read"><b id="speedValue">14</b><span>KM/H</span></div>
+        <div class="dial-tick" aria-hidden="true"></div>
+      </div>
+      <div class="ride-stats">
+        <span>GEAR <b id="gear">2</b></span>
+        <span>CADENCE <b id="cadence">61</b><i>RPM</i></span>
+        <span class="ride-state" id="rideState">CRUISING</span>
+      </div>
+    </section>
+
+    <div class="ride-hints" aria-label="操作提示">
+      <span><kbd>DRAG</kbd> 环视</span>
+      <span><kbd>SCROLL</kbd> 远近</span>
+      <span><kbd>W</kbd><kbd>S</kbd> 加速 / 减速</span>
+      <span><kbd>A</kbd><kbd>D</kbd> 压弯</span>
+      <span><kbd>SPACE</kbd> 跃起</span>
+      <span><kbd>B</kbd> 车铃</span>
+    </div>
+
+    <div class="coordinate-strip" aria-hidden="true">
+      <span>34.4489° N</span><i></i><span>120.4712° W</span><i></i><span>ELEV. 4 M</span><i></i><span>WIND 12 KTS NW</span>
+    </div>
+
+    <div class="rec-badge" id="recBadge" aria-live="polite"><i></i><span>REC</span><b id="recTime">0:06</b></div>
+    <div class="film-flash" id="filmFlash" aria-hidden="true"></div>
+
+    <div class="touch-ui" id="touchUI" aria-label="触屏控制">
+      <div class="touch-steer">
+        <button type="button" data-touch="left" aria-label="向左压弯"><svg><use href="#i-left"/></svg></button>
+        <button type="button" data-touch="right" aria-label="向右压弯"><svg><use href="#i-right"/></svg></button>
+      </div>
+      <div class="touch-actions">
+        <button type="button" data-touch="bell" aria-label="按响车铃"><svg><use href="#i-bell"/></svg><span>铃</span></button>
+        <button type="button" data-touch="jump" aria-label="跃起"><svg><use href="#i-jump"/></svg><span>跃</span></button>
+      </div>
+    </div>
+  </div>
+
+  <button id="cinemaExit" class="cinema-exit" type="button"><span>退出影院</span><kbd>C</kbd></button>
+
+  <dialog id="helpDialog" class="help-dialog">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow"><span></span>FIELD NOTES</p>
+        <h2>如何与一只鹈鹕同行</h2>
+      </div>
+      <button id="closeHelp" class="icon-btn" type="button" aria-label="关闭"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="dialog-grid">
+      <section>
+        <h3>骑行 <small>THE RIDE</small></h3>
+        <dl class="key-list">
+          <div><dt><kbd>W</kbd> / <kbd>S</kbd></dt><dd>加速 / 刹车</dd></div>
+          <div><dt><kbd>A</kbd> / <kbd>D</kbd></dt><dd>左右压弯</dd></div>
+          <div><dt><kbd>SHIFT</kbd></dt><dd>站起来冲刺</dd></div>
+          <div><dt><kbd>SPACE</kbd></dt><dd>让轮子短暂离开木板</dd></div>
+          <div><dt><kbd>B</kbd></dt><dd>按响黄铜车铃</dd></div>
+          <div><dt><kbd>H</kbd></dt><dd>让鹈鹕叫一声</dd></div>
+        </dl>
+      </section>
+      <section>
+        <h3>观看 <small>THE LOOK</small></h3>
+        <dl class="key-list">
+          <div><dt><kbd>DRAG</kbd></dt><dd>环绕观看鹈鹕</dd></div>
+          <div><dt><kbd>SCROLL</kbd></dt><dd>推近或拉远</dd></div>
+          <div><dt><kbd>DOUBLE CLICK</kbd></dt><dd>回到导演镜头</dd></div>
+          <div><dt><kbd>C</kbd></dt><dd>影院模式，藏起界面</dd></div>
+          <div><dt><kbd>P</kbd></dt><dd>拍一张带水印的照片</dd></div>
+          <div><dt><kbd>ESC</kbd></dt><dd>回到现实</dd></div>
+        </dl>
+      </section>
+      <section class="dialog-about">
+        <h3>关于 <small>ABOUT</small></h3>
+        <p>这并不是一条真实的海岸线。天空、海水、小岛、灯塔、鹈鹕和自行车，全部由代码在浏览器里实时生成；没有模型文件，也没有图片素材。黄昏可以拖动，海浪一直在响。</p>
+        <p class="muted">MADE WITH THREE.JS, CUSTOM GLSL, WEB AUDIO, CANVAS &amp; AFFECTION.<br>BEST VIEWED WITH SOUND ON.</p>
+      </section>
+    </div>
+    <footer class="dialog-foot">
+      <span>PELICAN POINT · ISSUE 001</span>
+      <button id="dialogSoundBtn" class="text-btn" type="button">声音：开启</button>
+    </footer>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript">这片黄昏需要 JavaScript 和 WebGL 才能显影。</div>
+  </noscript>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

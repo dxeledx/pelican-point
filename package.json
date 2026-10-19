@@ -1,0 +1,12 @@
+{
+  "name": "pelican-point",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A realtime 3D postcard: a pelican, a teal bicycle, and a Pacific sunset.",
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "serve": "python3 -m http.server 4173"
+  },
+  "license": "UNLICENSED"
+}
